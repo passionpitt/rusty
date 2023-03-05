@@ -1,4 +1,4 @@
-# Simple Rusty Project
+# Rusty Project
 
 ## Overview
 Simple rust application
@@ -10,14 +10,14 @@ Simple rust application
 ## Setup
 - database
 ```sh
-mysql -uroot -p < setup/database.sql
+make setup-db
 ```
 - verify import
 ```sh
-mysql -uroot -p -e "USE rusty;SHOW TABLES\G;"
+make verify
 ```
 
 ## Run package
 ```sh
-cargo run --package rusty --bin rusty
+make rusty
 ```

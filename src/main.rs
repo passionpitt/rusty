@@ -1,19 +1,21 @@
 //Rusty APP
 //@author: mindo
-use sqlx::mysql::MySqlPoolOptions;
-use futures::TryStreamExt;
+mod models;
+mod db;
 
-mod model;
+use futures::TryStreamExt;
+use models::user::Users;
+use db::connection::create_database_connection;
+use dotenv::dotenv;
 
 #[async_std::main]
 async fn main() -> Result<(), sqlx::Error> {
-    let pool = MySqlPoolOptions::new()
-        .max_connections(3)
-        .connect("mysql://user:topsecret@localhost/rusty")
-        .await?;
+    dotenv().ok();
+
+    let pool = create_database_connection().await?;
 
     //fetch record
-    let mut query_results = sqlx::query_as::<_, model::Users>(r#"SELECT id, name, username FROM users ORDER BY id ASC"#)
+    let mut query_results = sqlx::query_as::<_, Users>(r#"SELECT id, name, username FROM users ORDER BY id ASC"#)
         .fetch(&pool);
 
     println!("+-------- Test Result ---------+");
