@@ -9,8 +9,9 @@ edition = "2021"
 futures = { version = "0.3", default-features = false }
 sqlx = { version = "0.6", features = [ "runtime-async-std-native-tls" , "mysql" ] }
 async-std = { version = "1", features = [ "attributes" ] }
-tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+tokio = { version = "1", features = ["full"] }
 dotenv = "0.15.0"
+aws-config = "0.54.1"
 
 [profile.dev.package.sqlx-macros]
 opt-level = 3
