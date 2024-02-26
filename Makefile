@@ -1,10 +1,13 @@
+#!make
+include .env
+
 #setup db
 setup-db:
-	mysql -uroot -p < setup/database.sql
+	mysql -u${DB_USER} -p < setup/database.sql
 
 #verify setup
 verify:
-	mysql -uroot -p -e "USE rusty;SHOW TABLES\G;"
+	mysql -u${DB_USER} -p -e "USE rusty;SHOW TABLES\G;"
 
 #run rusty app
 rusty:
