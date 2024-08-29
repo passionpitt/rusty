@@ -6,26 +6,7 @@ use crate::models::User;
 use serde_json::json;
 use std::result::Result;
 use crate::helpers::db_connection::get_connection;
-
-#[derive(Debug)]
-pub struct CustomError {
-    pub message: String,
-    pub cause: Option<Box<dyn std::error::Error + Send + Sync>>,
-}
-
-impl CustomError {
-    pub fn with_cause<E>(message: &str, cause: E) -> Self
-    where
-        E: Into<Box<dyn std::error::Error + Send + Sync>>,
-    {
-        CustomError {
-            message: message.to_string(),
-            cause: Some(cause.into()),
-        }
-    }
-}
-
-impl warp::reject::Reject for CustomError {}
+use crate::helpers::custom_error::CustomError;
 
 pub async fn create_user_handler(
     user: User,

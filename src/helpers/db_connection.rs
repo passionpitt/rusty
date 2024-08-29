@@ -1,7 +1,7 @@
 use warp::Rejection;
 use crate::database::DbPool;
 use mysql::PooledConn;
-use crate::handlers::user_handlers::CustomError;
+use crate::helpers::custom_error::CustomError;
 
 pub fn get_connection(db_pool: &DbPool) -> Result<PooledConn, Rejection> {
     db_pool
