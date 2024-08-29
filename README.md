@@ -5,19 +5,25 @@ Simple rust application
 
 ## Prerequisites
 - [install](https://doc.rust-lang.org/cargo/getting-started/installation.html) cargo & rust
-- [mysql](https://www.mysql.com/)
 
-## Setup
-- database
-```sh
-make setup-db
-```
-- verify import
-```sh
-make verify
-```
-
-## Run package
-```sh
-make rusty
-```
+## Commands
+- Start API Service
+  ```sh
+  make up
+  ```
+- Shut Down API Service
+  ```sh
+  make down
+  ```
+- Build API Service docker image
+  ```sh
+  make docker-build
+  ```
+- Build API Service local image
+  ```sh
+  make local-build
+  ```
+- Setup DB (note: password is `password`)
+  ```sh
+  make setup-db
+  ```
