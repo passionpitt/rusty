@@ -34,6 +34,11 @@ jobs:
             done
       
       - run:
+          name: Initialize database schema
+          command: |
+            mysql -h 127.0.0.1 -u root -ppassword rusty_test < platform/images/mysql/schema.sql
+      
+      - run:
           name: Check formatting
           command: cargo fmt -- --check
       

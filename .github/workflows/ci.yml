@@ -49,6 +49,10 @@ jobs:
         path: target
         key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
 
+    - name: Initialize database schema
+      run: |
+        mysql -h localhost -u root -ppassword rusty_test < platform/images/mysql/schema.sql
+
     - name: Check formatting
       run: cargo fmt -- --check
 
