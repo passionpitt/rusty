@@ -33,12 +33,15 @@ impl FromRow for UserActivity {
         let created_at_value: mysql::Value = row.get("created_at").unwrap_or(mysql::Value::NULL);
         let created_at = match created_at_value {
             mysql::Value::Date(year, month, day, hour, minute, second, _) => {
-                format!("{:04}-{:02}-{:02} {:02}:{:02}:{:02}", year, month, day, hour, minute, second)
-            },
+                format!(
+                    "{:04}-{:02}-{:02} {:02}:{:02}:{:02}",
+                    year, month, day, hour, minute, second
+                )
+            }
             mysql::Value::NULL => "".to_string(),
             _ => created_at_value.to_string(),
         };
-        
+
         Ok(UserActivity {
             id: row.get("id").unwrap_or_default(),
             user_id: row.get("user_id").unwrap_or_default(),
@@ -99,21 +102,27 @@ impl FromRow for Transaction {
         let created_at_value: mysql::Value = row.get("created_at").unwrap_or(mysql::Value::NULL);
         let created_at = match created_at_value {
             mysql::Value::Date(year, month, day, hour, minute, second, _) => {
-                format!("{:04}-{:02}-{:02} {:02}:{:02}:{:02}", year, month, day, hour, minute, second)
-            },
+                format!(
+                    "{:04}-{:02}-{:02} {:02}:{:02}:{:02}",
+                    year, month, day, hour, minute, second
+                )
+            }
             mysql::Value::NULL => "".to_string(),
             _ => created_at_value.to_string(),
         };
-        
+
         let updated_at_value: mysql::Value = row.get("updated_at").unwrap_or(mysql::Value::NULL);
         let updated_at = match updated_at_value {
             mysql::Value::Date(year, month, day, hour, minute, second, _) => {
-                format!("{:04}-{:02}-{:02} {:02}:{:02}:{:02}", year, month, day, hour, minute, second)
-            },
+                format!(
+                    "{:04}-{:02}-{:02} {:02}:{:02}:{:02}",
+                    year, month, day, hour, minute, second
+                )
+            }
             mysql::Value::NULL => "".to_string(),
             _ => updated_at_value.to_string(),
         };
-        
+
         Ok(Transaction {
             id: row.get("id").unwrap_or_default(),
             user_id: row.get("user_id").unwrap_or_default(),

@@ -55,13 +55,15 @@ pub async fn get_analytics_handler(
 
     let user_registrations_by_day: Vec<DailyCount> = registrations
         .into_iter()
-        .map(|(date, count)| DailyCount { 
+        .map(|(date, count)| DailyCount {
             date: match date {
-                mysql::Value::Date(year, month, day, _, _, _, _) => format!("{:04}-{:02}-{:02}", year, month, day),
+                mysql::Value::Date(year, month, day, _, _, _, _) => {
+                    format!("{:04}-{:02}-{:02}", year, month, day)
+                }
                 mysql::Value::NULL => "".to_string(),
                 _ => date.to_string(),
-            }, 
-            count 
+            },
+            count,
         })
         .collect();
 
