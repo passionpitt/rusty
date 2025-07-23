@@ -1,5 +1,5 @@
-use mysql::Row;
 use mysql::prelude::FromRow;
+use mysql::Row;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
