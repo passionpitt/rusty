@@ -42,3 +42,21 @@ CREATE TABLE IF NOT EXISTS `db`.`user_sessions` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_bin;
+
+CREATE TABLE IF NOT EXISTS `db`.`transactions` (
+    `id` INT PRIMARY KEY AUTO_INCREMENT,
+    `user_id` INT NOT NULL,
+    `amount` DECIMAL(15,2) NOT NULL,
+    `currency` VARCHAR(3) NOT NULL DEFAULT 'USD',
+    `transaction_type` ENUM('debit', 'credit') NOT NULL,
+    `description` TEXT,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
+    INDEX `idx_transactions_user_id` (`user_id`),
+    INDEX `idx_transactions_created_at` (`created_at`),
+    INDEX `idx_transactions_type` (`transaction_type`)
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_bin;
