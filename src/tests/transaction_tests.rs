@@ -1,10 +1,8 @@
 #[cfg(test)]
 mod tests {
-    use crate::models::Transaction;
-    use crate::handlers::transaction_handlers::*;
     use crate::database::get_db_pool;
-    use tokio_test;
-    use serde_json::json;
+    use crate::handlers::transaction_handlers::*;
+    use crate::models::Transaction;
 
     #[tokio::test]
     async fn test_create_transaction() {

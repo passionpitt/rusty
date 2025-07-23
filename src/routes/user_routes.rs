@@ -1,8 +1,10 @@
-use warp::Filter;
 use crate::database::DbPool;
 use crate::handlers::user_handlers::*;
+use warp::Filter;
 
-pub fn user_routes(db_pool: DbPool) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
+pub fn user_routes(
+    db_pool: DbPool,
+) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
     let create_user = warp::path("users")
         .and(warp::post())
         .and(warp::body::json())
@@ -29,6 +31,8 @@ pub fn user_routes(db_pool: DbPool) -> impl Filter<Extract = impl warp::Reply, E
     create_user.or(get_user).or(update_user).or(delete_user)
 }
 
-fn with_db(db_pool: DbPool) -> impl Filter<Extract = (DbPool,), Error = std::convert::Infallible> + Clone {
+fn with_db(
+    db_pool: DbPool,
+) -> impl Filter<Extract = (DbPool,), Error = std::convert::Infallible> + Clone {
     warp::any().map(move || db_pool.clone())
 }

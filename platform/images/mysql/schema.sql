@@ -1,8 +1,8 @@
-CREATE SCHEMA IF NOT EXISTS `db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+CREATE SCHEMA IF NOT EXISTS `rusty_test` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 
-USE `db`;
+USE `rusty_test`;
 
-CREATE TABLE IF NOT EXISTS `db`.`users` (
+CREATE TABLE IF NOT EXISTS `rusty_test`.`users` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
     `name` VARCHAR(50) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_bin' NOT NULL UNIQUE,
     `email` VARCHAR(100) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_bin' NOT NULL UNIQUE,
@@ -13,7 +13,7 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_bin;
 
-CREATE TABLE IF NOT EXISTS `db`.`user_activities` (
+CREATE TABLE IF NOT EXISTS `rusty_test`.`user_activities` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
     `user_id` INT NOT NULL,
     `activity_type` VARCHAR(50) NOT NULL,
@@ -28,7 +28,7 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_bin;
 
-CREATE TABLE IF NOT EXISTS `db`.`user_sessions` (
+CREATE TABLE IF NOT EXISTS `rusty_test`.`user_sessions` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
     `user_id` INT NOT NULL,
     `login_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -43,7 +43,7 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_bin;
 
-CREATE TABLE IF NOT EXISTS `db`.`transactions` (
+CREATE TABLE IF NOT EXISTS `rusty_test`.`transactions` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
     `user_id` INT NOT NULL,
     `amount` DECIMAL(15,2) NOT NULL,

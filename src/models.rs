@@ -1,5 +1,5 @@
-use mysql::Row;
 use mysql::prelude::FromRow;
+use mysql::Row;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -30,12 +30,21 @@ pub struct UserActivity {
 
 impl FromRow for UserActivity {
     fn from_row_opt(row: Row) -> Result<Self, mysql::FromRowError> {
+        let created_at_value: mysql::Value = row.get("created_at").unwrap_or(mysql::Value::NULL);
+        let created_at = match created_at_value {
+            mysql::Value::Date(year, month, day, hour, minute, second, _) => {
+                format!("{year:04}-{month:02}-{day:02} {hour:02}:{minute:02}:{second:02}")
+            }
+            mysql::Value::NULL => "".to_string(),
+            _ => format!("{created_at_value:?}"),
+        };
+
         Ok(UserActivity {
             id: row.get("id").unwrap_or_default(),
             user_id: row.get("user_id").unwrap_or_default(),
             activity_type: row.get("activity_type").unwrap_or_default(),
             activity_data: row.get("activity_data"),
-            created_at: row.get("created_at").unwrap_or_default(),
+            created_at,
         })
     }
 }
@@ -87,6 +96,24 @@ pub struct Transaction {
 
 impl FromRow for Transaction {
     fn from_row_opt(row: Row) -> Result<Self, mysql::FromRowError> {
+        let created_at_value: mysql::Value = row.get("created_at").unwrap_or(mysql::Value::NULL);
+        let created_at = match created_at_value {
+            mysql::Value::Date(year, month, day, hour, minute, second, _) => {
+                format!("{year:04}-{month:02}-{day:02} {hour:02}:{minute:02}:{second:02}")
+            }
+            mysql::Value::NULL => "".to_string(),
+            _ => format!("{created_at_value:?}"),
+        };
+
+        let updated_at_value: mysql::Value = row.get("updated_at").unwrap_or(mysql::Value::NULL);
+        let updated_at = match updated_at_value {
+            mysql::Value::Date(year, month, day, hour, minute, second, _) => {
+                format!("{year:04}-{month:02}-{day:02} {hour:02}:{minute:02}:{second:02}")
+            }
+            mysql::Value::NULL => "".to_string(),
+            _ => format!("{updated_at_value:?}"),
+        };
+
         Ok(Transaction {
             id: row.get("id").unwrap_or_default(),
             user_id: row.get("user_id").unwrap_or_default(),
@@ -94,8 +121,8 @@ impl FromRow for Transaction {
             currency: row.get("currency").unwrap_or_default(),
             transaction_type: row.get("transaction_type").unwrap_or_default(),
             description: row.get("description"),
-            created_at: row.get("created_at").unwrap_or_default(),
-            updated_at: row.get("updated_at").unwrap_or_default(),
+            created_at,
+            updated_at,
         })
     }
 }

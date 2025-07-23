@@ -1,9 +1,9 @@
-mod server;
-mod models;
 mod database;
 mod handlers;
-mod routes;
 mod helpers;
+mod models;
+mod routes;
+mod server;
 
 #[cfg(test)]
 mod tests;

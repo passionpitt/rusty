@@ -1,12 +1,12 @@
-use warp::{Rejection, Reply};
-use mysql::*;
-use mysql::prelude::*;
 use crate::database::DbPool;
+use crate::helpers::custom_error::CustomError;
+use crate::helpers::db_connection::get_connection;
 use crate::models::Transaction;
+use mysql::prelude::*;
+use mysql::*;
 use serde_json::json;
 use std::result::Result;
-use crate::helpers::db_connection::get_connection;
-use crate::helpers::custom_error::CustomError;
+use warp::{Rejection, Reply};
 
 pub async fn create_transaction_handler(
     transaction: Transaction,
@@ -29,10 +29,7 @@ pub async fn create_transaction_handler(
     Ok(warp::reply::json(&json!({"status": "success"})))
 }
 
-pub async fn get_transaction_handler(
-    id: u64,
-    db_pool: DbPool,
-) -> Result<impl Reply, Rejection> {
+pub async fn get_transaction_handler(id: u64, db_pool: DbPool) -> Result<impl Reply, Rejection> {
     let mut conn = get_connection(&db_pool)?;
 
     let transaction: Option<Transaction> = conn.exec_first(
@@ -71,10 +68,7 @@ pub async fn update_transaction_handler(
     Ok(warp::reply::json(&json!({"status": "success"})))
 }
 
-pub async fn delete_transaction_handler(
-    id: u64,
-    db_pool: DbPool,
-) -> Result<impl Reply, Rejection> {
+pub async fn delete_transaction_handler(id: u64, db_pool: DbPool) -> Result<impl Reply, Rejection> {
     let mut conn = get_connection(&db_pool)?;
 
     conn.exec_drop(
@@ -83,7 +77,9 @@ pub async fn delete_transaction_handler(
             "id" => id,
         },
     )
-    .map_err(|e| warp::reject::custom(CustomError::with_cause("Failed to delete transaction", e)))?;
+    .map_err(|e| {
+        warp::reject::custom(CustomError::with_cause("Failed to delete transaction", e))
+    })?;
 
     Ok(warp::reply::json(&json!({"status": "deleted"})))
 }

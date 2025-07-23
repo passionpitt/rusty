@@ -1,8 +1,10 @@
-use warp::Filter;
 use crate::database::DbPool;
 use crate::handlers::transaction_handlers::*;
+use warp::Filter;
 
-pub fn transaction_routes(db_pool: DbPool) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
+pub fn transaction_routes(
+    db_pool: DbPool,
+) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
     let create_transaction = warp::path("transactions")
         .and(warp::post())
         .and(warp::body::json())
@@ -37,6 +39,8 @@ pub fn transaction_routes(db_pool: DbPool) -> impl Filter<Extract = impl warp::R
         .or(get_user_transactions)
 }
 
-fn with_db(db_pool: DbPool) -> impl Filter<Extract = (DbPool,), Error = std::convert::Infallible> + Clone {
+fn with_db(
+    db_pool: DbPool,
+) -> impl Filter<Extract = (DbPool,), Error = std::convert::Infallible> + Clone {
     warp::any().map(move || db_pool.clone())
 }
