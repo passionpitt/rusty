@@ -73,6 +73,33 @@ pub struct AnalyticsResponse {
     pub activity_by_type: Vec<ActivityTypeCount>,
 }
 
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct Transaction {
+    pub id: u64,
+    pub user_id: u64,
+    pub amount: f64,
+    pub currency: String,
+    pub transaction_type: String,
+    pub description: Option<String>,
+    pub created_at: String,
+    pub updated_at: String,
+}
+
+impl FromRow for Transaction {
+    fn from_row_opt(row: Row) -> Result<Self, mysql::FromRowError> {
+        Ok(Transaction {
+            id: row.get("id").unwrap_or_default(),
+            user_id: row.get("user_id").unwrap_or_default(),
+            amount: row.get("amount").unwrap_or_default(),
+            currency: row.get("currency").unwrap_or_default(),
+            transaction_type: row.get("transaction_type").unwrap_or_default(),
+            description: row.get("description"),
+            created_at: row.get("created_at").unwrap_or_default(),
+            updated_at: row.get("updated_at").unwrap_or_default(),
+        })
+    }
+}
+
 #[derive(Debug, Serialize)]
 pub struct DailyCount {
     pub date: String,
