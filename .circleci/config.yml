@@ -6,7 +6,7 @@ version: 2.1
 jobs:
   build-and-test:
     docker:
-      - image: cimg/rust:1.75
+      - image: cimg/rust:1.82
       - image: cimg/mysql:8.0
         environment:
           MYSQL_ROOT_PASSWORD: password
