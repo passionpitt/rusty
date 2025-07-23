@@ -73,6 +73,10 @@ jobs:
     - name: Initialize database schema
       run: |
         mysql -h 127.0.0.1 -P 3306 -u root -ppassword rusty_test < platform/images/mysql/schema.sql
+        
+    - name: Seed test data
+      run: |
+        mysql -h 127.0.0.1 -P 3306 -u root -ppassword rusty_test -e "INSERT INTO users (id, name, email) VALUES (1, 'Test User', 'test@example.com');"
 
     - name: Check formatting
       run: cargo fmt -- --check
