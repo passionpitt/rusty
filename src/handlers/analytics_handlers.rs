@@ -47,7 +47,7 @@ pub async fn get_analytics_handler(
     .map_err(|e| warp::reject::custom(CustomError::with_cause("Failed to get 90d active users", e)))?
     .unwrap_or(0);
 
-    let registrations: Vec<(String, u64)> = conn.exec(
+    let registrations: Vec<(mysql::Value, u64)> = conn.exec(
         "SELECT DATE(created_at) as date, COUNT(*) as count FROM users WHERE created_at >= DATE_SUB(NOW(), INTERVAL ? DAY) GROUP BY DATE(created_at) ORDER BY date",
         (days,)
     )
@@ -55,7 +55,14 @@ pub async fn get_analytics_handler(
 
     let user_registrations_by_day: Vec<DailyCount> = registrations
         .into_iter()
-        .map(|(date, count)| DailyCount { date, count })
+        .map(|(date, count)| DailyCount { 
+            date: match date {
+                mysql::Value::Date(year, month, day, _, _, _, _) => format!("{:04}-{:02}-{:02}", year, month, day),
+                mysql::Value::NULL => "".to_string(),
+                _ => date.to_string(),
+            }, 
+            count 
+        })
         .collect();
 
     let activities: Vec<(String, u64)> = conn.exec(
