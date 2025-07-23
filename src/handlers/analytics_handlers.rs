@@ -61,7 +61,7 @@ pub async fn get_analytics_handler(
                     format!("{:04}-{:02}-{:02}", year, month, day)
                 }
                 mysql::Value::NULL => "".to_string(),
-                _ => date.to_string(),
+                _ => format!("{:?}", date),
             },
             count,
         })

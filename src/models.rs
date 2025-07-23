@@ -39,7 +39,7 @@ impl FromRow for UserActivity {
                 )
             }
             mysql::Value::NULL => "".to_string(),
-            _ => created_at_value.to_string(),
+            _ => format!("{:?}", created_at_value),
         };
 
         Ok(UserActivity {
@@ -108,7 +108,7 @@ impl FromRow for Transaction {
                 )
             }
             mysql::Value::NULL => "".to_string(),
-            _ => created_at_value.to_string(),
+            _ => format!("{:?}", created_at_value),
         };
 
         let updated_at_value: mysql::Value = row.get("updated_at").unwrap_or(mysql::Value::NULL);
@@ -120,7 +120,7 @@ impl FromRow for Transaction {
                 )
             }
             mysql::Value::NULL => "".to_string(),
-            _ => updated_at_value.to_string(),
+            _ => format!("{:?}", updated_at_value),
         };
 
         Ok(Transaction {
