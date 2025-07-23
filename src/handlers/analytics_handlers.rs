@@ -58,10 +58,10 @@ pub async fn get_analytics_handler(
         .map(|(date, count)| DailyCount {
             date: match date {
                 mysql::Value::Date(year, month, day, _, _, _, _) => {
-                    format!("{:04}-{:02}-{:02}", year, month, day)
+                    format!("{year:04}-{month:02}-{day:02}")
                 }
                 mysql::Value::NULL => "".to_string(),
-                _ => format!("{:?}", date),
+                _ => format!("{date:?}"),
             },
             count,
         })

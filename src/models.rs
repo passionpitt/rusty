@@ -33,13 +33,10 @@ impl FromRow for UserActivity {
         let created_at_value: mysql::Value = row.get("created_at").unwrap_or(mysql::Value::NULL);
         let created_at = match created_at_value {
             mysql::Value::Date(year, month, day, hour, minute, second, _) => {
-                format!(
-                    "{:04}-{:02}-{:02} {:02}:{:02}:{:02}",
-                    year, month, day, hour, minute, second
-                )
+                format!("{year:04}-{month:02}-{day:02} {hour:02}:{minute:02}:{second:02}")
             }
             mysql::Value::NULL => "".to_string(),
-            _ => format!("{:?}", created_at_value),
+            _ => format!("{created_at_value:?}"),
         };
 
         Ok(UserActivity {
@@ -102,25 +99,19 @@ impl FromRow for Transaction {
         let created_at_value: mysql::Value = row.get("created_at").unwrap_or(mysql::Value::NULL);
         let created_at = match created_at_value {
             mysql::Value::Date(year, month, day, hour, minute, second, _) => {
-                format!(
-                    "{:04}-{:02}-{:02} {:02}:{:02}:{:02}",
-                    year, month, day, hour, minute, second
-                )
+                format!("{year:04}-{month:02}-{day:02} {hour:02}:{minute:02}:{second:02}")
             }
             mysql::Value::NULL => "".to_string(),
-            _ => format!("{:?}", created_at_value),
+            _ => format!("{created_at_value:?}"),
         };
 
         let updated_at_value: mysql::Value = row.get("updated_at").unwrap_or(mysql::Value::NULL);
         let updated_at = match updated_at_value {
             mysql::Value::Date(year, month, day, hour, minute, second, _) => {
-                format!(
-                    "{:04}-{:02}-{:02} {:02}:{:02}:{:02}",
-                    year, month, day, hour, minute, second
-                )
+                format!("{year:04}-{month:02}-{day:02} {hour:02}:{minute:02}:{second:02}")
             }
             mysql::Value::NULL => "".to_string(),
-            _ => format!("{:?}", updated_at_value),
+            _ => format!("{updated_at_value:?}"),
         };
 
         Ok(Transaction {
