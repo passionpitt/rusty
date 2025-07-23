@@ -62,3 +62,7 @@ jobs:
       run: cargo test --verbose
       env:
         DATABASE_URL: mysql://root:password@localhost:3306/rusty_test
+        MYSQL_HOST: localhost
+        MYSQL_USER: root
+        MYSQL_PASSWORD: password
+        MYSQL_DATABASE: rusty_test
